@@ -2463,6 +2463,10 @@ function KBENGINE()
 		}
 	}
 
+	this.Client_onKicked = function(failedcode)
+	{
+	}
+	
 	this.Client_onSetEntityPosAndDir = function(stream)
 	{
 		var eid = stream.readInt32();
