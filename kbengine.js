@@ -2392,7 +2392,7 @@ function KBENGINE()
 	this.Client_onEntityLeaveWorldOptimized = function(stream)
 	{
 		var eid = g_kbengine.getAoiEntityIDFromStream(stream);
-		Client_onEntityLeaveWorld(eid);
+		g_kbengine.Client_onEntityLeaveWorld(eid);
 	}
 	
 	this.Client_onEntityLeaveWorld = function(eid)
