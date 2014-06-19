@@ -1484,6 +1484,7 @@ function KBENGINE()
 		this.lastticktime = dateObject.getTime();
 		this.spaceID = 0;
 		this.spaceResPath = "";
+		this.isLoadedGeometry = false;
 	}
 	
 	this.reset();
@@ -2406,12 +2407,11 @@ function KBENGINE()
 		if(entity.inWorld)
 			entity.leaveWorld();
 		
-		var newArray = [];
-		
 		if(g_kbengine.entity_id > 0 && eid != g_kbengine.entity_id)
 		{
 			delete g_kbengine.entities[eid];
-
+			
+			var newArray = [];
 			for(var i=0; i<g_kbengine.entityIDAliasIDList.length; i++){
 			    if(g_kbengine.entityIDAliasIDList[i] != eid){
 			       newArray.push(g_kbengine.entityIDAliasIDList[i]);
@@ -2422,7 +2422,7 @@ function KBENGINE()
 		}
 		else
 		{
-			g_kbengine.entityIDAliasIDList = newArray
+			g_kbengine.clearSpace();
 			entity.cell = null;
 		}
 	}
@@ -2522,18 +2522,31 @@ function KBENGINE()
 		g_kbengine.spaceResPath = respath;
 	}
 
+	this.clearSpace = function()
+	{
+		g_kbengine.entityIDAliasIDList = [];
+		g_kbengine.spacedata = {};
+		g_kbengine.isLoadedGeometry = false;
+		g_kbengine.spaceID = 0;
+		
+		var entity = g_kbengine.player();
+		g_kbengine.entities = {}
+		g_kbengine.entities[entity.id] = entity;
+	}
+		
 	this.Client_initSpaceData = function(stream)
 	{
-		var spaceID = stream.readInt32();
-		g_kbengine.spaceID = spaceID;
+		g_kbengine.clearSpace();
+		
+		g_kbengine.spaceID = stream.readInt32();
 		while(stream.opsize() > 0)
 		{
 			var key = stream.readString();
 			var value = stream.readString();
-			g_kbengine.Client_setSpaceData(spaceID, key, value);
+			g_kbengine.Client_setSpaceData(g_kbengine.spaceID, key, value);
 		}
 		
-		console.info("KBENGINE::Client_initSpaceData: spaceID(" + spaceID + "), datas(" + g_kbengine.spacedata + ")!");
+		console.info("KBENGINE::Client_initSpaceData: spaceID(" + g_kbengine.spaceID + "), datas(" + g_kbengine.spacedata + ")!");
 	}
 	
 	this.Client_setSpaceData = function(spaceID, key, value)
