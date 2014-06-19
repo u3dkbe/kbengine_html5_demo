@@ -2503,7 +2503,7 @@ function KBENGINE()
 	this.updatePlayerToServer = function()
 	{
 		player = g_kbengine.player();
-		if(player == undefined || player.inWorld == false)
+		if(player == undefined || player.inWorld == false || g_kbengine.spaceID == 0)
 			return;
 		
 		var bundle = new KBE_BUNDLE();
