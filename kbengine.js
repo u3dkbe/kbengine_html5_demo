@@ -2406,11 +2406,12 @@ function KBENGINE()
 		if(entity.inWorld)
 			entity.leaveWorld();
 		
-		delete g_kbengine.entities[eid];
+		var newArray = [];
 		
 		if(g_kbengine.entity_id > 0 && eid != g_kbengine.entity_id)
 		{
-			var newArray = [];
+			delete g_kbengine.entities[eid];
+
 			for(var i=0; i<g_kbengine.entityIDAliasIDList.length; i++){
 			    if(g_kbengine.entityIDAliasIDList[i] != eid){
 			       newArray.push(g_kbengine.entityIDAliasIDList[i]);
@@ -2418,6 +2419,11 @@ function KBENGINE()
 			}
 			
 			g_kbengine.entityIDAliasIDList = newArray
+		}
+		else
+		{
+			g_kbengine.entityIDAliasIDList = newArray
+			entity.cell = null;
 		}
 	}
 
