@@ -1485,6 +1485,7 @@ function KBENGINE()
 		this.spaceID = 0;
 		this.spaceResPath = "";
 		this.isLoadedGeometry = false;
+		this.isOnGound = false;
 	}
 	
 	this.reset();
@@ -2514,7 +2515,8 @@ function KBENGINE()
 		bundle.writeFloat(player.direction[2]);
 		bundle.writeFloat(player.direction[1]);
 		bundle.writeFloat(player.direction[0]);
-		bundle.writeUint8(1); // isOnGound
+		bundle.writeUint8(g_kbengine.isOnGound);
+		bundle.writeUint8(g_kbengine.spaceID);
 		bundle.send(g_kbengine);
 	}
 	
