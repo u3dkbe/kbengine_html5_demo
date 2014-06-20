@@ -2536,6 +2536,15 @@ function KBENGINE()
 		g_kbengine.spaceID = 0;
 		
 		var entity = g_kbengine.player();
+		
+		for (var eid in g_kbengine.entities)  
+		{ 
+			if(eid == entity.id)
+				continue;
+			
+		    g_kbengine.entities[eid].leaveWorld();
+		}  
+			
 		g_kbengine.entities = {}
 		g_kbengine.entities[entity.id] = entity;
 	}
